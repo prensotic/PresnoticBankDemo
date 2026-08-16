@@ -13,9 +13,10 @@ public class User {
    private final LocalDate dateOfBirth;
    private final Gender gender;
    private final String passwordHash;
+   private final byte[] passwordSalt;
    private final String phoneNumber;
 
-   public User(String firstName, String lastName, LocalDate dateOfBirth, Gender gender, String phoneNumber, String passwordHash){
+   public User(String firstName, String lastName, LocalDate dateOfBirth, Gender gender, String phoneNumber, String passwordHash, byte[] passwordSalt){
       if(firstName == null || firstName.isBlank()) 
          throw new IllegalArgumentException("Имя должно быть заполнено.");
       if(lastName == null || lastName.isBlank())
@@ -28,6 +29,8 @@ public class User {
          throw new IllegalArgumentException("Дата рождения должна быть указана.");
       if(gender == null)
          throw new IllegalArgumentException("Пол должен быть указан.");
+      if (passwordSalt == null)
+         throw new IllegalArgumentException("Salt пароля должен быть заполнен.");
 
       this.id = ID_GENERATOR.incrementAndGet();
       this.firstName = firstName;
@@ -36,6 +39,7 @@ public class User {
       this.gender = gender;
       this.phoneNumber = phoneNumber;
       this.passwordHash = passwordHash;
+      this.passwordSalt = passwordSalt;
    }
 
    public void setFirstName(String firstName){
@@ -61,6 +65,8 @@ public class User {
    public String getPhoneNumber() { return phoneNumber; }
 
    public String getPasswordHash() { return passwordHash; }
+
+   public byte[] getPasswordSalt() { return passwordSalt; }
 
    public LocalDate getDateOfBirthday(){
       return dateOfBirth;

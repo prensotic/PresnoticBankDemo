@@ -11,6 +11,7 @@ import models.User;
 import repositories.AccountRepository;
 import repositories.TransactionRepository;
 import repositories.UserRepository;
+import services.PasswordService;
 import services.UserService;
 import services.AccountService;
 import services.TransactionService;
@@ -18,6 +19,8 @@ import ui.consoleUI.ConsoleInput;
 import ui.consoleUI.ConsoleUI;
 
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +49,17 @@ public class Bank {
         this.transactionService = new TransactionService(transactionRepository, accountService);
     }
 
-    public void test(){
+    public void test() throws NoSuchAlgorithmException, InvalidKeySpecException {
         consoleUI.printTitle("Тестирование");
 
-        userService.createUser(new User("Илья", "Логинов", LocalDate.of(2006, 9, 15), Gender.MALE, "89877116595", "Ilya150906"));
+        byte[] salt1 = PasswordService.generateSalt();
+        byte[] salt2 = PasswordService.generateSalt();
+
+        String hash1 = PasswordService.hashPassword("Ilya150906", salt1);
+
+        String hash2 = PasswordService.hashPassword("Adelya180806", salt2);
+
+        userService.createUser(new User("Илья", "Логинов", LocalDate.of(2006, 9, 15), Gender.MALE, "89877116595", hash1, salt1));
         User user1 = userService.getUserById(1);
         consoleUI.printUserInfo(user1);
 
@@ -58,7 +68,7 @@ public class Bank {
         account1.deposit(new BigDecimal("3224550"));
         consoleUI.printAccountInfo(account1, user1.getFirstName());
 
-        userService.createUser(new User("Аделия", "Гибадуллина", LocalDate.of(2006, 8, 18), Gender.FEMALE, "89877131382", "Adelya180806"));
+        userService.createUser(new User("Аделия", "Гибадуллина", LocalDate.of(2006, 8, 18), Gender.FEMALE, "89877131382", hash2, salt2));
         User user2 = userService.getUserById(2);
         consoleUI.printUserInfo(user2);
 
