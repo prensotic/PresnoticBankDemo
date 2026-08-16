@@ -21,13 +21,6 @@ public class Account {
    }
 
    /*
-   void deposit(BigDecimal amount) - для пополнения баланса
-   void withdraw(BigDecimal amount) - для уменьшения баланса
-
-   после успешной демки, нужно сделать synchronized, для корректной работы в нескольких потоках
-   */
-
-   /*
    * ПРИ ИСПОЛЬЗОВАНИИ synchronized поток блокирует остальные потоки, пока не закончит операцию
    * */
 

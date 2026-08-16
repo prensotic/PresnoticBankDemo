@@ -49,7 +49,7 @@ public class Bank {
     public void test(){
         consoleUI.printTitle("Тестирование");
 
-        userService.createUser(new User("Илья", "Логинов", LocalDate.of(2006, 9, 15), Gender.MALE));
+        userService.createUser(new User("Илья", "Логинов", LocalDate.of(2006, 9, 15), Gender.MALE, "89877116595", "Ilya150906"));
         User user1 = userService.getUserById(1);
         consoleUI.printUserInfo(user1);
 
@@ -58,7 +58,7 @@ public class Bank {
         account1.deposit(new BigDecimal("3224550"));
         consoleUI.printAccountInfo(account1, user1.getFirstName());
 
-        userService.createUser(new User("Аделия", "Гибадуллина", LocalDate.of(2006, 8, 18), Gender.FEMALE));
+        userService.createUser(new User("Аделия", "Гибадуллина", LocalDate.of(2006, 8, 18), Gender.FEMALE, "89877131382", "Adelya180806"));
         User user2 = userService.getUserById(2);
         consoleUI.printUserInfo(user2);
 

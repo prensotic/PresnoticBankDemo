@@ -21,7 +21,6 @@ public class AccountService {
    public List<Account> getAccountsByUserId(long userId){
       if(userId <= 0)
          throw new IllegalArgumentException("ID пользователя должен быть положительным");
-
       return accountRepository.getAllAccountsByUserId(userId);
    }
 
@@ -30,17 +29,14 @@ public class AccountService {
          throw new IllegalArgumentException("ID счета должен быть положительным");
 
       Account account = accountRepository.getAccountById(id);
-
       if(account == null)
          throw new AccountNotFoundException("Счет с ID: " + id + " не найден.");
-
       return account;
    }
 
    public void createAccount(Account account){
       if(account == null)
          throw new IllegalArgumentException("Счет не может быть null.");
-
       accountRepository.saveAccount(account);
    }
 

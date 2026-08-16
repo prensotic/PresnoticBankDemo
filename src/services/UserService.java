@@ -23,14 +23,12 @@ public class UserService {
 
         if(user == null)
             throw new UserNotFoundException("Пользователь с ID: " + id + " не найден.");
-
         return user;
     }
 
     public void createUser(User user){
         if(user == null)
             throw new IllegalArgumentException("Пользователь не может быть null.");
-
         userRepository.saveUser(user);
     }
 

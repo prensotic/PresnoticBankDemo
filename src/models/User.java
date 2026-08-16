@@ -12,18 +12,21 @@ public class User {
    private String lastName;
    private final LocalDate dateOfBirth;
    private final Gender gender;
+   private final String passwordHash;
+   private final String phoneNumber;
 
-   public User(String firstName, String lastName, LocalDate dateOfBirth, Gender gender){
+   public User(String firstName, String lastName, LocalDate dateOfBirth, Gender gender, String phoneNumber, String passwordHash){
       if(firstName == null || firstName.isBlank()) 
          throw new IllegalArgumentException("Имя должно быть заполнено.");
-
-      if(lastName == null || lastName.isBlank()) 
+      if(lastName == null || lastName.isBlank())
          throw new IllegalArgumentException("Фамилия должна быть заполнена.");
-
-      if(dateOfBirth == null) 
+      if(passwordHash == null || passwordHash.isBlank())
+         throw new IllegalArgumentException("Пароль должен быть заполнен.");
+      if(phoneNumber == null || phoneNumber.isBlank())
+         throw new IllegalArgumentException("Телефон должен быть заполнен.");
+      if(dateOfBirth == null)
          throw new IllegalArgumentException("Дата рождения должна быть указана.");
-
-      if(gender == null) 
+      if(gender == null)
          throw new IllegalArgumentException("Пол должен быть указан.");
 
       this.id = ID_GENERATOR.incrementAndGet();
@@ -31,19 +34,19 @@ public class User {
       this.lastName = lastName;
       this.dateOfBirth = dateOfBirth;
       this.gender = gender;
+      this.phoneNumber = phoneNumber;
+      this.passwordHash = passwordHash;
    }
 
    public void setFirstName(String firstName){
       if(firstName == null || firstName.isBlank()) 
          throw new IllegalArgumentException("Имя должно быть заполнено.");
-
       this.firstName = firstName;
    }
 
    public void setLastName(String lastName){
       if(firstName == null || firstName.isBlank()) 
          throw new IllegalArgumentException("Фамилия должна быть заполнена.");
-
       this.lastName = lastName;
    }
 
@@ -54,6 +57,10 @@ public class User {
    public String getLastName(){
       return lastName;
    }
+
+   public String getPhoneNumber() { return phoneNumber; }
+
+   public String getPasswordHash() { return passwordHash; }
 
    public LocalDate getDateOfBirthday(){
       return dateOfBirth;
