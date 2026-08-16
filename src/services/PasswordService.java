@@ -33,7 +33,7 @@ public class PasswordService {
         return Base64.getEncoder().encodeToString(hash);
     }
 
-    public boolean verifyPassword(String password, byte[] salt, String expectedHash)
+    public static boolean verifyPassword(String password, byte[] salt, String expectedHash)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         if (password == null || salt == null || expectedHash == null)
             return false;

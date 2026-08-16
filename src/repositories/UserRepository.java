@@ -17,4 +17,17 @@ public class UserRepository {
     public void saveUser(User user){ users.put(user.getId(), user); }
 
     public void deleteUser(long id){ users.remove(id); }
+
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return users.values().stream()
+                .anyMatch(u -> u.getPhoneNumber().equals(phoneNumber));
+    }
+
+    public User getUserByPhoneNumber(String phoneNumber){
+        return users.values()
+                .stream()
+                .filter(u -> u.getPhoneNumber().equals(phoneNumber))
+                .findFirst()
+                .orElse(null);
+    }
 }

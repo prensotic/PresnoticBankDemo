@@ -29,6 +29,9 @@ public class UserService {
     public void createUser(User user){
         if(user == null)
             throw new IllegalArgumentException("Пользователь не может быть null.");
+        if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+            throw new IllegalArgumentException("Пользователь с таким номером телефона уже существует.");
+        }
         userRepository.saveUser(user);
     }
 
