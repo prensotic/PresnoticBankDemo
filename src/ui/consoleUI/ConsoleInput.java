@@ -22,6 +22,17 @@ public class ConsoleInput {
         }
     }
 
+    public String readString(){
+        while (true) {
+            try {
+                return scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Введите строку.");
+                scanner.next();
+            }
+        }
+    }
+
     public long readLong() {
         while (true) {
             try {

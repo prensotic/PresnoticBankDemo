@@ -11,10 +11,7 @@ import models.User;
 import repositories.AccountRepository;
 import repositories.TransactionRepository;
 import repositories.UserRepository;
-import services.PasswordService;
-import services.UserService;
-import services.AccountService;
-import services.TransactionService;
+import services.*;
 import ui.consoleUI.ConsoleInput;
 import ui.consoleUI.ConsoleUI;
 
@@ -32,6 +29,7 @@ public class Bank {
     private final UserService userService;
     private final AccountService accountService;
     private final TransactionService transactionService;
+    private final AuthService authService;
 
     private final ConsoleUI consoleUI;
     private final ConsoleInput consoleInput;
@@ -47,6 +45,7 @@ public class Bank {
         this.userService = new UserService(userRepository);
         this.accountService = new AccountService(accountRepository);
         this.transactionService = new TransactionService(transactionRepository, accountService);
+        this.authService = new AuthService(userService, userRepository);
     }
 
     public void test() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -102,13 +101,48 @@ public class Bank {
                     System.out.println("Выберете действие которое хотите совершить, а затем введите цифру:");
                     consoleUI.printListOfItems("Войти в банк.", "Завершить работу.");
                     System.out.print("Введите действие: ");
-
                     action = consoleInput.readInt();
-                    state = action == 1 ? "enter in system" : "stop";
+                    state = action == 1 ? "registration" : "stop";
                     consoleUI.printSpace();
                     break;
                 case "stop":
                     isWorks = false;
+                    break;
+                case "registration":
+                    consoleUI.printTitle("Регистрация");
+                    boolean userIsRegistered = false;
+                    while(!userIsRegistered){
+                        System.out.print("Введите имя: ");
+                        String firstName = consoleInput.readString();
+                        System.out.println();
+                        System.out.print("Введите фамилию: ");
+                        String lastName = consoleInput.readString();
+
+                        System.out.print("Введите дату рождения в формате 01.01.2000");
+                        String[] dateString = consoleInput.readString().split("\\.");
+                        LocalDate date = LocalDate.parse(dateString[2] + "-" + dateString[1] + "-" + dateString[0]);
+
+                        System.out.print("Введите номер телефона: ");
+                        String phoneNumber = consoleInput.readString();
+
+                        System.out.print("""
+                            Укажите пол: 
+                            1) Мужской
+                            2) Женский
+                            Введите цифру: 
+                            """);
+                        int genderNumber = consoleInput.readInt();
+                        Gender gender = genderNumber == 1 ? Gender.MALE : Gender.FEMALE;
+
+                        System.out.print("Введите пароль: ");
+                        String password = consoleInput.readString();
+
+                        userIsRegistered = authService.registration(firstName, lastName, date, gender, phoneNumber, password);
+                    }
+                    state = "login";
+                    break;
+                case "login":
+                    consoleUI.printTitle("Вход");
                     break;
                 case "enter in system":
                     long userId;

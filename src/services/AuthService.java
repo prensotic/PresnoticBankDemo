@@ -5,19 +5,14 @@ import models.User;
 import repositories.UserRepository;
 
 import java.time.LocalDate;
-import java.util.Random;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
 
 public class AuthService {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    public AuthService(UserService userService, Random random, UserRepository userRepository){
+    public AuthService(UserService userService, UserRepository userRepository){
         this.userService = userService;
         this.userRepository = userRepository;
     }
