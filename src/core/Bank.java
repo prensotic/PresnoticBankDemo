@@ -161,24 +161,6 @@ public class Bank {
                         System.out.println(e.getMessage());
                     }
                     break;
-//                case "enter in system":
-//                    long userId;
-//                    System.out.print("Введите номер аккаунта: ");
-//                    userId = consoleInput.readLong();
-//                    try {
-//                        currentUser = userService.getUserById(userId);
-//                        state = "profile";
-//                    } catch (UserNotFoundException e) {
-//                        System.out.println(e.getMessage());
-//                        state = "start";
-//
-//                        while(action!=0){
-//                            System.out.println("Введите 0 для выхода.");
-//                            action = consoleInput.readInt();
-//                        }
-//                    }
-//                    consoleUI.printSpace();
-//                    break;
                 case "profile":
                     consoleUI.printTitle("Профиль");
                     consoleUI.printUserInfo(currentUser);
@@ -199,14 +181,47 @@ public class Bank {
                 case "my accounts":
                     consoleUI.printTitle("Мои счета");
                     consoleUI.printAccountsInfo(accountService.getAccountsByUserId(currentUser.getId()), currentUser.getFirstName());
+                    consoleUI.printListOfItems("Добавить счет.", "Удалить счет.", "Выйти в профиль");
+                    System.out.print("Выберете действие: ");
+                    action = consoleInput.readInt();
+                    state = switch (action) {
+                        case 1 -> "add account";
+                        case 2 -> "delete account";
+                        case 3 -> "profile";
+                        default -> state;
+                    };
+                    consoleUI.printSpace();
+                    break;
+                case "add account":
+                    consoleUI.printTitle("Новый счет");
 
-                    while(action!=0){
-                        System.out.println("Введите 0 для выхода.");
-                        action = consoleInput.readInt();
+                    System.out.print("Введите начальную сумму счета: ");
+                    BigDecimal startBalance = consoleInput.readBigDecimal();
+
+                    Account newAccount = new Account(currentUser.getId());
+                    newAccount.deposit(startBalance);
+                    accountService.createAccount(newAccount);
+
+                    state = "my accounts";
+                    break;
+                case "delete account":
+                    consoleUI.printTitle("Удаление счета");
+
+                    System.out.print("Введите номер счета, который желаете удалить: ");
+                    long accountId = consoleInput.readLong();
+
+                    boolean hasAccount = accountService
+                            .getAccountsByUserId(currentUser.getId())
+                            .stream()
+                            .anyMatch(account -> account.getId() == accountId);
+
+                    if (!hasAccount) {
+                        System.out.println("Вы ввели не свой номер счета.");
+                        break;
                     }
 
-                    state = "profile";
-                    consoleUI.printSpace();
+                    accountService.deleteAccount(accountId);
+                    state = "my accounts";
                     break;
                 case "new transfer":
                     consoleUI.printTitle("Новый перевод");
