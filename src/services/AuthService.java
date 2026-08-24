@@ -17,18 +17,20 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public boolean login(String phoneNumber, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        if(password == null || password.isBlank())
+    public User login(String phoneNumber, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        if (password == null || password.isBlank())
             throw new IllegalArgumentException("Пароль должен быть указан.");
-        if(phoneNumber == null || phoneNumber.isBlank())
+        if (phoneNumber == null || phoneNumber.isBlank())
             throw new IllegalArgumentException("Номер телефона должен быть указан.");
 
         User user = userRepository.getUserByPhoneNumber(phoneNumber);
 
-        if (user == null) {
+        if (user == null)
             throw new IllegalArgumentException("Пользователь с таким номером телефона не существует.");
-        }
-        return PasswordService.verifyPassword(password, user.getPasswordSalt(), user.getPasswordHash());
+        if (!PasswordService.verifyPassword(password, user.getPasswordSalt(), user.getPasswordHash()))
+            throw new IllegalArgumentException("Неверный пароль.");
+
+        return user;
     }
 
     public boolean registration(String firstName, String lastName, LocalDate dateOfBirth, Gender gender, String phoneNumber, String password) {

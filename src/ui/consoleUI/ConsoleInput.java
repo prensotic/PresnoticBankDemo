@@ -14,10 +14,12 @@ public class ConsoleInput {
     public int readInt() {
         while (true) {
             try {
-                return scanner.nextInt();
+                int result = scanner.nextInt();
+                scanner.nextLine(); // съедаем Enter
+                return result;
             } catch (InputMismatchException e) {
                 System.out.println("Введите целое число.");
-                scanner.next();
+                scanner.nextLine();
             }
         }
     }
@@ -36,10 +38,12 @@ public class ConsoleInput {
     public long readLong() {
         while (true) {
             try {
-                return scanner.nextLong();
+                long result = scanner.nextLong();
+                scanner.nextLine();
+                return result;
             } catch (InputMismatchException e) {
                 System.out.println("Введите целое число.");
-                scanner.next();
+                scanner.nextLine();
             }
         }
     }

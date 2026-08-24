@@ -99,10 +99,15 @@ public class Bank {
             switch (state){
                 case "start":
                     System.out.println("Выберете действие которое хотите совершить, а затем введите цифру:");
-                    consoleUI.printListOfItems("Войти в банк.", "Завершить работу.");
+                    consoleUI.printListOfItems("Войти в банк.", "Зарегистрироваться.", "Завершить работу.");
                     System.out.print("Введите действие: ");
                     action = consoleInput.readInt();
-                    state = action == 1 ? "registration" : "stop";
+                    state = switch (action) {
+                        case 1 -> "login";
+                        case 2 -> "registration";
+                        case 3 -> "stop";
+                        default -> state;
+                    };
                     consoleUI.printSpace();
                     break;
                 case "stop":
@@ -118,7 +123,7 @@ public class Bank {
                         System.out.print("Введите фамилию: ");
                         String lastName = consoleInput.readString();
 
-                        System.out.print("Введите дату рождения в формате 01.01.2000");
+                        System.out.print("Введите дату рождения в формате 01.01.2000: ");
                         String[] dateString = consoleInput.readString().split("\\.");
                         LocalDate date = LocalDate.parse(dateString[2] + "-" + dateString[1] + "-" + dateString[0]);
 
@@ -139,29 +144,41 @@ public class Bank {
 
                         userIsRegistered = authService.registration(firstName, lastName, date, gender, phoneNumber, password);
                     }
-                    state = "login";
+                    state = "start";
                     break;
                 case "login":
                     consoleUI.printTitle("Вход");
-                    break;
-                case "enter in system":
-                    long userId;
-                    System.out.print("Введите номер аккаунта: ");
-                    userId = consoleInput.readLong();
-                    try {
-                        currentUser = userService.getUserById(userId);
-                        state = "profile";
-                    } catch (UserNotFoundException e) {
-                        System.out.println(e.getMessage());
-                        state = "start";
+                    System.out.print("Введите номер телефона: ");
+                    String checkPhoneNumber = consoleInput.readString();
 
-                        while(action!=0){
-                            System.out.println("Введите 0 для выхода.");
-                            action = consoleInput.readInt();
-                        }
+                    System.out.print("Введите пароль: ");
+                    String checkPassword = consoleInput.readString();
+
+                    try {
+                        currentUser = authService.login(checkPhoneNumber, checkPassword);
+                        state = "profile";
+                    } catch (IllegalArgumentException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        System.out.println(e.getMessage());
                     }
-                    consoleUI.printSpace();
                     break;
+//                case "enter in system":
+//                    long userId;
+//                    System.out.print("Введите номер аккаунта: ");
+//                    userId = consoleInput.readLong();
+//                    try {
+//                        currentUser = userService.getUserById(userId);
+//                        state = "profile";
+//                    } catch (UserNotFoundException e) {
+//                        System.out.println(e.getMessage());
+//                        state = "start";
+//
+//                        while(action!=0){
+//                            System.out.println("Введите 0 для выхода.");
+//                            action = consoleInput.readInt();
+//                        }
+//                    }
+//                    consoleUI.printSpace();
+//                    break;
                 case "profile":
                     consoleUI.printTitle("Профиль");
                     consoleUI.printUserInfo(currentUser);

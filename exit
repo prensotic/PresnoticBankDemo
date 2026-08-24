@@ -1,0 +1,35 @@
+[33mcommit 47a97c75396598c94f0fb82fa677d01223f3d498[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/user-auth-data[m[33m, [m[1;31morigin/feature/user-auth-data[m[33m)[m
+Author: presnotic <vhxhje3ouxg3ofo@gmail.com>
+Date:   Mon Aug 17 11:31:32 2026 +0300
+
+    Started creating registration process in programm core
+
+[33mcommit bd174698397eb04f31b2cabb0c2706f461a2a509[m
+Author: presnotic <vhxhje3ouxg3ofo@gmail.com>
+Date:   Sun Aug 16 17:00:22 2026 +0300
+
+    Push to git
+
+[33mcommit b5d2419cc30e3adaf50f3b0eaa360212f0b6dc7c[m
+Author: presnotic <vhxhje3ouxg3ofo@gmail.com>
+Date:   Sun Aug 16 11:34:12 2026 +0300
+
+    Login and registration methods have been created.
+
+[33mcommit 2372ac2837f604d2d4c36d5d94f696a529de17f0[m
+Author: presnotic <vhxhje3ouxg3ofo@gmail.com>
+Date:   Sun Aug 16 10:50:01 2026 +0300
+
+    The password services, auth services has been added
+
+[33mcommit f6ed4e83390173afd0fcdf586113513e08b06cc6[m
+Author: presnotic <vhxhje3ouxg3ofo@gmail.com>
+Date:   Sun Aug 16 09:34:50 2026 +0300
+
+    The passwordHash and phoneNumber fields have been added
+
+[33mcommit da5da4635be85606a704c6664b826016bb5f9c6a[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: presnotic <vhxhje3ouxg3ofo@gmail.com>
+Date:   Sat Aug 15 20:37:07 2026 +0300
+
+    The foundation of the application has been created.
